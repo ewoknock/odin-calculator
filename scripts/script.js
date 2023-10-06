@@ -27,9 +27,19 @@ calcKeys.addEventListener('click', (e) => {
         case 'operator':
             processOperator(equation, input, keyValue, previousKeyType);
             break;
-            case 'equals':
-                processEquals(equation, input, previousKeyType, previousEquation);
-                break;
+        case 'equals':
+            processEquals(equation, input, previousKeyType, previousEquation);
+            break;
+        case 'percent':
+            processPercent(equation, input);
+            break;
+        case 'sign':
+            processSign(input, previousKeyType);
+            updatePreviousEquation = false;
+            break;
+        case 'decimal':
+            processDecimal(input);
+            break;
         default:
     
     }
@@ -43,7 +53,15 @@ function updateEquation(num1, operator, num2){
 }
 
 function updateInput(input){
+    let decimalEnd = false;
+    if(input.toString().match(/\.$/)){
+        decimalEnd = true; 
+    }
     input = commaSeparate(input);
+
+    if(decimalEnd){
+        input += ".";
+    }
     userInput.textContent = `${input}`;
 }
 
@@ -117,6 +135,35 @@ function processEquals(equation, input, previousKeyType, previousEquation){
     result = calculate(num1, operator, num2);
     updateEquation(num1, operator, num2);
     updateInput(result);
+}
+
+function processPercent(equation, input){
+    console.log("here");
+    if(equation[1] !== " "){
+        input = Number(input) / 100;
+        updateInput(input);
+        console.log(typeof input);
+    }
+    else{
+        input = Number(input) / 100;
+        updateInput(input);
+    }
+}
+
+function processSign(input, previousKeyType){
+    if(previousKeyType === 'equals'){
+        equationInput.textContent = '\xA0';
+    }
+    input = Number(input) * -1;
+    updateInput(input);
+}
+
+function processDecimal(input){
+    if(!input.includes(".")){
+        input += ".";
+        console.log(typeof input);
+    }
+    updateInput(input);
 }
 
 function calculate(x, operation, y){
