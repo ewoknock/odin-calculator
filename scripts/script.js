@@ -53,14 +53,21 @@ function updateEquation(num1, operator, num2){
 }
 
 function updateInput(input){
-    let decimalEnd = false;
-    if(input.toString().match(/\.$/)){
-        decimalEnd = true; 
+    if(input === 'ERROR'){
+        input = 0;
+        processClear();
+        alert("You cannot divide by 0 silly!");
     }
-    input = commaSeparate(input);
-
-    if(decimalEnd){
-        input += ".";
+    else{
+        let decimalEnd = false;
+        if(input.toString().match(/\.$/)){
+            decimalEnd = true; 
+        }
+        input = commaSeparate(input);
+    
+        if(decimalEnd){
+            input += ".";
+        }
     }
     userInput.textContent = `${input}`;
 }
@@ -181,6 +188,9 @@ function calculate(x, operation, y){
             total = x * y;
             break;
         case '÷':
+            if(y === 0){
+                return "ERROR";
+            }
             total = x / y;
             break;
         default: // assumption that default case is "="
