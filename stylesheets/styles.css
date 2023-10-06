@@ -24,7 +24,6 @@ html{
 body{
     background-color: var(--primary-background);
     font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -48,14 +47,13 @@ button{
     height: 75vh;
     min-height: 500px;
     padding: 10px;
-    margin-top: 50px;
+    margin-top: 0 auto;
 }
 
 .calculator{
     background-color: var(--primary-dark);
     border-radius: 1rem;
     width: 300px;
-    padding: .2rem;
 }
 
 .calculator .display{
@@ -68,13 +66,16 @@ button{
     background-color: var(--color-functions);
     border-radius: .5rem;
     padding: .2rem .7rem;
-    font-size: 2rem;
+    margin: 0;
+    font-size: 2.5rem;
     box-shadow: inset 2px 3px 5px 1px rgb(0,0,0,0.5);
     color: var(--primary-light);
 }
 
 .equation{
     font-size: 1rem;
+    color: var(--color-input);
+
 }
 
 

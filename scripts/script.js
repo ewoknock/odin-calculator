@@ -21,6 +21,12 @@ calcKeys.addEventListener('click', (e) => {
         case 'number':
             processNumber(input, keyValue, previousKeyType);
             break;
+        case 'allClear':
+            processClear();
+            break;
+        case 'operator':
+            processOperator(equation, input, keyValue, previousKeyType);
+            break;
         default:
     
     }
@@ -28,6 +34,10 @@ calcKeys.addEventListener('click', (e) => {
     calculator.dataset.previousKeyType = type;
     calculator.dataset.previousEquation = equationInput.textContent;
 });
+
+function updateEquation(num1, operator, num2){
+    equationInput.textContent = !operator ? `${num1} =` : !num2 ? `${num1} ${operator}` : `${num1} ${operator} ${num2} =`;
+}
 
 function updateInput(input){
     input = commaSeparate(input);
@@ -55,4 +65,55 @@ function processNumber(input, keyValue, previousKeyType){
     }
 
     updateInput(s);
+}
+
+function processClear(){
+    equationInput.textContent = '\xA0';
+    userInput.textContent = '0';
+}
+
+function processOperator(equation, input, keyValue, previousKeyType){
+    if(previousKeyType === 'number' || previousKeyType === 'sign'){
+        let result;
+        if(equation.length > 1){ 
+            if(equation[1]){
+                result = calculate(equation[0], equation[1], input);
+            }
+            else{
+                result = calculate(equation[0], keyValue, input);
+
+            }
+        }
+        else{
+            result = input;
+        }
+        updateEquation(result, keyValue);
+        updateInput(result);
+    }
+    else{
+        updateEquation(input, keyValue);
+    }
+}
+
+function calculate(x, operation, y){
+    x = Number(x);
+    y = Number(y);
+    let total = 0;
+    switch(operation){
+        case '+':
+            total = x + y;
+            break;
+        case '-':
+            total = x - y;
+            break;
+        case '×':
+            total = x * y;
+            break;
+        case '÷':
+            total = x / y;
+            break;
+        default: // assumption that default case is "="
+            total = x;
+    }
+    return total;
 }
