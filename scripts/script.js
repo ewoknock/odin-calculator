@@ -27,6 +27,9 @@ calcKeys.addEventListener('click', (e) => {
         case 'operator':
             processOperator(equation, input, keyValue, previousKeyType);
             break;
+            case 'equals':
+                processEquals(equation, input, previousKeyType, previousEquation);
+                break;
         default:
     
     }
@@ -93,6 +96,27 @@ function processOperator(equation, input, keyValue, previousKeyType){
     else{
         updateEquation(input, keyValue);
     }
+}
+
+function processEquals(equation, input, previousKeyType, previousEquation){
+    let num1, operator, num2, result;
+    if(equation.length > 1 && previousKeyType !== 'equals'){
+        num1 = equation[0];
+        operator = equation[1];
+        num2 = input;
+    }
+    else{
+        if(previousKeyType === 'sign'){    
+            equation = previousEquation.split(' ');    
+        }
+        num1 = input;
+        operator = equation[1];
+        num2 = equation[2];
+    }
+
+    result = calculate(num1, operator, num2);
+    updateEquation(num1, operator, num2);
+    updateInput(result);
 }
 
 function calculate(x, operation, y){
